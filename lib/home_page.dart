@@ -1,17 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'menu.dart';
-
-class ScreenSize {
-  static double width = 0;
-  static double height = 0;
-
-  void init(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
-  }
-}
+import 'screen_size.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -65,11 +55,19 @@ class HomePageState extends State<HomePage> {
                     width: ScreenSize.width / 3,
                     height: ScreenSize.width / 72,
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(50)))),
                       child: Text(
                         'Ver Anúncios',
                         style: TextStyle(fontSize: ScreenSize.width / 24),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/anuncios');
+                      },
                     ),
                   )),
             ),

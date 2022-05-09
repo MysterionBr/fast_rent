@@ -32,6 +32,7 @@ class Menu extends StatelessWidget {
             title: const Text("Ver Imóveis"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
+              Navigator.of(context).pushNamed('/anuncios');
               //debugPrint('toquei no drawer');
               //Navigator.pop(context);
             }),

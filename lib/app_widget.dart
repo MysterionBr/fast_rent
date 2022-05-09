@@ -5,6 +5,7 @@ import 'package:projeto01/contato_page.dart';
 import 'package:projeto01/planos.dart';
 import 'package:projeto01/cadastro.dart';
 import 'package:projeto01/sobre_page.dart';
+import 'package:projeto01/anuncios_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class AppWidget extends StatelessWidget {
         '/planos': (context) => const Plans(),
         '/cadastro': (context) => const Cadastro(),
         '/sobre': (context) => const Sobre(),
+        '/anuncios': (context) => const Anuncios(),
       },
     );
   }
