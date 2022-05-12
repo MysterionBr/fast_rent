@@ -31,7 +31,7 @@ class HomePageState extends State<HomePage> {
                           image: AssetImage('assets/images/backgroundHome.jpg'),
                           fit: BoxFit.cover)),
                   child: Text(
-                    'Quer alugar ou \nanunciar um imóvel?\n A resposta está aqui!',
+                    '\nQuer alugar ou \nanunciar um imóvel?\n A resposta está aqui!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         height: 2,
@@ -59,8 +59,8 @@ class HomePageState extends State<HomePage> {
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(50)))),
+                                      borderRadius: BorderRadius.circular(
+                                          ScreenSize.widthPlusHeight / 40)))),
                       child: Text(
                         'Ver Anúncios',
                         style: TextStyle(fontSize: ScreenSize.width / 24),

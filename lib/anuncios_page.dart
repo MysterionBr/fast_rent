@@ -46,10 +46,10 @@ class Detalhes {
             actions: [
               TextButton(
                 child: Text(
-                  'Contatar Anunciante',
+                  'Mais detalhes',
                   style: TextStyle(fontSize: ScreenSize.width / 32.72),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.of(context).pushNamed('/anuncio'),
               ),
               TextButton(
                 child: Text(
@@ -83,7 +83,7 @@ class _AnunciosState extends State<Anuncios> {
           child: Container(
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/backgroundAnuncios.jpg'),
+                      image: AssetImage('assets/images/backgroundLogin.jpg'),
                       fit: BoxFit.fill)),
               child: GridView.count(
                 crossAxisCount: 2,
