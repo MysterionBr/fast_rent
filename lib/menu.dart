@@ -91,8 +91,7 @@ class Menu extends StatelessWidget {
                 style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 80)),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              //debugPrint('toquei no drawer');
-              //Navigator.pop(context);
+              Navigator.of(context).pushNamed('/cadastroAnuncio');
             }),
         SizedBox(height: ScreenSize.widthPlusHeight / 100),
         ListTile(

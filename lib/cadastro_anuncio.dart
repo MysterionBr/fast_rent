@@ -1,230 +1,240 @@
 import 'package:flutter/material.dart';
-import 'menu.dart';
+import 'package:projeto01/menu.dart';
 import 'screen_size.dart';
 
-class CadastroAnuncio extends StatefulWidget {
-  const CadastroAnuncio({Key? key}) : super(key: key);
+class CadastroAnuncios extends StatefulWidget {
+  const CadastroAnuncios({Key? key}) : super(key: key);
 
   @override
-  State<CadastroAnuncio> createState() => _MyStatefulWidgetState();
+  State<CadastroAnuncios> createState() => _CadastroAnunciosState();
 }
 
-class _MyStatefulWidgetState extends State<CadastroAnuncio> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController cpfController = TextEditingController();
-  TextEditingController celularController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+class _CadastroAnunciosState extends State<CadastroAnuncios> {
+  late int selecionado;
+  @override
+  void initState() {
+    super.initState();
+    selecionado = 0;
+  }
+
+  selecaoradio(val) {
+    setState(() {
+      selecionado = val;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     ScreenSize().init(context);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Cadastrar Anúncio'),
-        ),
-        body: Center(
-            child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/backgroundLogin.jpg'),
-                  fit: BoxFit.cover)),
+      appBar: AppBar(
+        title: const Text('Cadastrar Anúncios'),
+      ),
+      body: Center(
           child: ListView(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Texto 'Digite os dados do imóvel'
-                  Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.fromLTRB(
-                          ScreenSize.widthPlusHeight / 40,
-                          ScreenSize.widthPlusHeight / 20,
-                          ScreenSize.widthPlusHeight / 40,
-                          ScreenSize.widthPlusHeight / 100),
-                      child: Text(
-                        'Digite os dados do imóvel',
-                        style: TextStyle(
-                            fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      )),
-                  //Campo de texto 'Título'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Título*',
-                      ),
+        children: <Widget>[
+          Column(
+            children: [
+              Container(
+                  padding: EdgeInsets.fromLTRB(
+                      0, ScreenSize.widthPlusHeight / 40, 0, 10),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/casa-limpa.png',
+                      width: ScreenSize.widthPlusHeight / 12,
+                      height: ScreenSize.widthPlusHeight / 12,
                     ),
-                  ),
-                  //Campo de texto 'Preço'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      obscureText: true,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Preço*',
-                      ),
+                  )),
+              SizedBox(height: ScreenSize.widthPlusHeight / 100),
+              Text(
+                'Faça o cadastro de seus anúncios',
+                style: TextStyle(
+                  fontFamily: 'Mermaid1001',
+                  fontSize: ScreenSize.widthPlusHeight / 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 20,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  maxLength: 30,
+                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.title),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                          ScreenSize.widthPlusHeight / 40),
                     ),
+                    labelText: 'Título',
                   ),
-                  //Campo de texto 'Bairro'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Bairro*',
-                      ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  maxLength: 9,
+                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
+                  decoration: InputDecoration(
+                    icon: const Icon(
+                      Icons.attach_money,
                     ),
-                  ),
-                  //Campo de texto 'Metragem'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: cpfController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Metragem*',
-                      ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                          ScreenSize.widthPlusHeight / 40),
                     ),
+                    labelText: 'Valor',
                   ),
-                  //Campo de texto 'Descrição'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: celularController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Descrição*',
-                      ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: TextFormField(
+                  keyboardType: TextInputType.streetAddress,
+                  maxLength: 20,
+                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
+                  decoration: InputDecoration(
+                    icon: const Icon(
+                      Icons.map_outlined,
                     ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                          ScreenSize.widthPlusHeight / 40),
+                    ),
+                    labelText: 'Bairro',
                   ),
-                  //Casa ou apartamento
-                  Container(
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
+                  decoration: InputDecoration(
+                    icon: const Icon(
+                      Icons.draw_rounded,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                          ScreenSize.widthPlusHeight / 40),
+                    ),
+                    labelText: 'm²',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  maxLength: 50,
+                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
+                  decoration: InputDecoration(
+                    icon: const Icon(
+                      Icons.edit_note,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                          ScreenSize.widthPlusHeight / 40),
+                    ),
+                    labelText: 'Descrição',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RadioListTile(
+                      title: const Text('Casa'),
+                      subtitle: const Text('Escolha uma opçao'),
+                      value: 1,
+                      groupValue: selecionado,
+                      activeColor: Colors.blue,
+                      onChanged: (val) {
+                        print("Radio $val");
+                        selecaoradio(val);
+                      },
+                    ),
+                    const Divider(
+                      height: 10,
+                      color: Colors.red,
+                    ),
+                    RadioListTile(
+                      title: const Text('Apartamento'),
+                      subtitle: const Text('Escolha uma opçao'),
+                      value: 2,
+                      groupValue: selecionado,
+                      activeColor: Colors.green,
+                      onChanged: (val) {
+                        print("Radio $val");
+                        selecaoradio(val);
+                      },
+                    ),
+                    Container(
                       padding: EdgeInsets.fromLTRB(
                           ScreenSize.widthPlusHeight / 40,
                           ScreenSize.widthPlusHeight / 100,
                           ScreenSize.widthPlusHeight / 40,
                           ScreenSize.widthPlusHeight / 100),
-                      child: DropdownButton<String>(
-                        style: TextStyle(
-                            fontSize: ScreenSize.widthPlusHeight / 66.6,
-                            color: Colors.black),
-                        onChanged: ((value) => ''),
-                        value: 'Casa',
-                        items: <String>['Casa', 'Apartamento']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )),
-                  //Botão 'cadastrar'
-                  Container(
-                    height: ScreenSize.widthPlusHeight / 22.2,
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 10,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 10,
-                        0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          ScreenSize.widthPlusHeight / 40)))),
-                      child: Text(
-                        'Anunciar',
-                        style: TextStyle(
-                            fontSize: ScreenSize.widthPlusHeight / 66.6),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Selecionar imagens'),
                       ),
-                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100,
+                    ScreenSize.widthPlusHeight / 40,
+                    ScreenSize.widthPlusHeight / 100),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Cadastrar',
+                    style: TextStyle(
+                      fontSize: ScreenSize.widthPlusHeight / 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                  //Texto com link para a página 'login'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        0, ScreenSize.widthPlusHeight / 100, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Já possui uma conta?',
-                          style: TextStyle(
-                              fontSize: ScreenSize.widthPlusHeight / 100),
-                        ),
-                        TextButton(
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                                fontSize: ScreenSize.widthPlusHeight / 100,
-                                color: Colors.blue),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/login');
-                          },
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  )
-                ],
-              )
+                ),
+              ),
             ],
           ),
-        )),
-        drawer: const Menu());
+        ],
+      )),
+      drawer: const Menu(),
+    );
   }
 }

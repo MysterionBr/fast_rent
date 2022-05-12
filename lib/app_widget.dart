@@ -25,7 +25,7 @@ class AppWidget extends StatelessWidget {
         '/contato': (context) => const ContatoWidget(),
         '/planos': (context) => const Plans(),
         '/cadastro': (context) => const Cadastro(),
-        '/cadastroAnuncio': (context) => const CadastroAnuncio(),
+        '/cadastroAnuncio': (context) => const CadastroAnuncios(),
         '/sobre': (context) => const Sobre(),
         '/anuncios': (context) => const Anuncios(),
         '/anuncio': (context) => const AnuncioPage(),
