@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'screen_size.dart';
+import 'campo_texto.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -62,48 +63,10 @@ class LoginPage extends StatelessWidget {
                             fontSize: ScreenSize.widthPlusHeight / 66.6),
                       )),
                   //Campo de texto 'Nome'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.account_circle,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Nome*',
-                      ),
-                    ),
-                  ),
-                  //Campo de texto 'senha'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Senha*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(
+                      label: 'Nome*', icon: Icon(Icons.account_circle)),
+                  //Campo de texto 'Senha'
+                  const CampoTexto(label: 'Senha*', icon: Icon(Icons.lock)),
                   //Botão 'entrar'
                   Container(
                     height: ScreenSize.widthPlusHeight / 22.2,

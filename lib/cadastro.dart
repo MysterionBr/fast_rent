@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'menu.dart';
+import 'campo_texto.dart';
 import 'screen_size.dart';
 
 class Cadastro extends StatefulWidget {
@@ -71,113 +72,17 @@ class _MyStatefulWidgetState extends State<Cadastro> {
                             fontSize: ScreenSize.widthPlusHeight / 66.6),
                       )),
                   //Campo de texto 'email'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.email,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Email*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(label: 'Email*', icon: Icon(Icons.email)),
                   //Campo de texto 'senha'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      obscureText: true,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Senha*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(label: 'Senha*', icon: Icon(Icons.lock)),
                   //Campo de texto 'nome'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.account_circle),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Nome*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(
+                      label: 'Nome*', icon: Icon(Icons.account_circle)),
                   //Campo de texto 'cpf'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: cpfController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.account_box_rounded),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'CPF*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(
+                      label: 'CPF*', icon: Icon(Icons.account_box_rounded)),
                   //Campo de texto 'celular'
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 40,
-                        ScreenSize.widthPlusHeight / 100),
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 66.6),
-                      controller: celularController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.call),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              ScreenSize.widthPlusHeight / 40),
-                        ),
-                        labelText: 'Celular*',
-                      ),
-                    ),
-                  ),
+                  const CampoTexto(label: 'Celular*', icon: Icon(Icons.call)),
                   //Botão 'cadastrar'
                   Container(
                     height: ScreenSize.widthPlusHeight / 22.2,

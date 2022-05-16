@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'screen_size.dart';
+import 'card_anuncio.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -61,167 +62,27 @@ class UserPageState extends State<UserPage> {
               height: ScreenSize.widthPlusHeight / 8,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  //Card
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa6.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 2
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa7.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 3
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa8.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 4
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa9.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 5
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa10.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
+                children: const <Widget>[
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '500,00',
+                      imagePath: 'assets/images/casa1.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '550,00',
+                      imagePath: 'assets/images/casa2.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '700,00',
+                      imagePath: 'assets/images/casa3.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '1000,00',
+                      imagePath: 'assets/images/casa4.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '1500,00',
+                      imagePath: 'assets/images/casa5.jpg'),
                 ],
               ),
             )),
@@ -240,167 +101,27 @@ class UserPageState extends State<UserPage> {
               height: ScreenSize.widthPlusHeight / 8,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  //Card
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa1.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 2
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa2.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 3
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa3.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 4
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa4.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
-                  //Card 5
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200,
-                        ScreenSize.widthPlusHeight / 100,
-                        ScreenSize.widthPlusHeight / 200),
-                    height: ScreenSize.widthPlusHeight / 10,
-                    width: ScreenSize.widthPlusHeight / 10,
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: Image.asset('assets/images/casa5.jpg',
-                                    fit: BoxFit.cover),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    'R\$ 500,00',
-                                    style: TextStyle(
-                                        fontSize: ScreenSize.width / 24),
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ),
+                children: const <Widget>[
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '3000,00',
+                      imagePath: 'assets/images/casa6.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '2800,00',
+                      imagePath: 'assets/images/casa7.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '2000,00',
+                      imagePath: 'assets/images/casa8.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '1900,00',
+                      imagePath: 'assets/images/casa9.jpg'),
+                  CardAnuncio(
+                      bairro: 'Centro',
+                      mensalidade: '2100,00',
+                      imagePath: 'assets/images/casa10.jpg'),
                 ],
               ),
             )),

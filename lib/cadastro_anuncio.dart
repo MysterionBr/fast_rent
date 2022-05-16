@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto01/menu.dart';
 import 'screen_size.dart';
+import 'campo_texto.dart';
 
 class CadastroAnuncios extends StatefulWidget {
   const CadastroAnuncios({Key? key}) : super(key: key);
@@ -30,210 +31,147 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
       appBar: AppBar(
         title: const Text('Cadastrar Anúncios'),
       ),
-      body: Center(
+      body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/backgroundLogin.jpg'),
+                  fit: BoxFit.cover)),
           child: ListView(
-        children: <Widget>[
-          Column(
-            children: [
-              Container(
-                  padding: EdgeInsets.fromLTRB(
-                      0, ScreenSize.widthPlusHeight / 40, 0, 10),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/casa-limpa.png',
-                      width: ScreenSize.widthPlusHeight / 12,
-                      height: ScreenSize.widthPlusHeight / 12,
-                    ),
-                  )),
-              SizedBox(height: ScreenSize.widthPlusHeight / 100),
-              Text(
-                'Faça o cadastro de seus anúncios',
-                style: TextStyle(
-                  fontFamily: 'Mermaid1001',
-                  fontSize: ScreenSize.widthPlusHeight / 50,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 20,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  maxLength: 30,
-                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                  decoration: InputDecoration(
-                    icon: const Icon(Icons.title),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          ScreenSize.widthPlusHeight / 40),
-                    ),
-                    labelText: 'Título',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  maxLength: 9,
-                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                  decoration: InputDecoration(
-                    icon: const Icon(
-                      Icons.attach_money,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          ScreenSize.widthPlusHeight / 40),
-                    ),
-                    labelText: 'Valor',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: TextFormField(
-                  keyboardType: TextInputType.streetAddress,
-                  maxLength: 20,
-                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                  decoration: InputDecoration(
-                    icon: const Icon(
-                      Icons.map_outlined,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          ScreenSize.widthPlusHeight / 40),
-                    ),
-                    labelText: 'Bairro',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                  decoration: InputDecoration(
-                    icon: const Icon(
-                      Icons.draw_rounded,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          ScreenSize.widthPlusHeight / 40),
-                    ),
-                    labelText: 'm²',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  maxLength: 50,
-                  style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                  decoration: InputDecoration(
-                    icon: const Icon(
-                      Icons.edit_note,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          ScreenSize.widthPlusHeight / 40),
-                    ),
-                    labelText: 'Descrição',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RadioListTile(
-                      title: const Text('Casa'),
-                      subtitle: const Text('Escolha uma opçao'),
-                      value: 1,
-                      groupValue: selecionado,
-                      activeColor: Colors.blue,
-                      onChanged: (val) {
-                        print("Radio $val");
-                        selecaoradio(val);
-                      },
-                    ),
-                    const Divider(
-                      height: 10,
-                      color: Colors.red,
-                    ),
-                    RadioListTile(
-                      title: const Text('Apartamento'),
-                      subtitle: const Text('Escolha uma opçao'),
-                      value: 2,
-                      groupValue: selecionado,
-                      activeColor: Colors.green,
-                      onChanged: (val) {
-                        print("Radio $val");
-                        selecaoradio(val);
-                      },
-                    ),
-                    Container(
+            children: <Widget>[
+              Column(
+                children: [
+                  Container(
                       padding: EdgeInsets.fromLTRB(
-                          ScreenSize.widthPlusHeight / 40,
-                          ScreenSize.widthPlusHeight / 100,
-                          ScreenSize.widthPlusHeight / 40,
-                          ScreenSize.widthPlusHeight / 100),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Selecionar imagens'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100,
-                    ScreenSize.widthPlusHeight / 40,
-                    ScreenSize.widthPlusHeight / 100),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Cadastrar',
+                          0, ScreenSize.widthPlusHeight / 40, 0, 10),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/casa-limpa.png',
+                          width: ScreenSize.widthPlusHeight / 12,
+                          height: ScreenSize.widthPlusHeight / 12,
+                        ),
+                      )),
+                  SizedBox(height: ScreenSize.widthPlusHeight / 100),
+                  Text(
+                    'Faça o cadastro de seu anúncio',
                     style: TextStyle(
+                      fontFamily: 'Mermaid1001',
                       fontSize: ScreenSize.widthPlusHeight / 50,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
-                ),
+                  SizedBox(height: ScreenSize.widthPlusHeight / 50),
+
+                  //Campo de texto 'título'
+                  const CampoTexto(label: 'Título*', icon: Icon(Icons.title)),
+                  //Campo de texto 'valor'
+                  const CampoTexto(
+                      label: 'Valor*', icon: Icon(Icons.attach_money)),
+                  //Campo de texto 'bairro'
+                  const CampoTexto(
+                      label: 'Bairro*', icon: Icon(Icons.map_outlined)),
+                  //Campo de texto 'm²'
+                  const CampoTexto(
+                      label: 'm²*', icon: Icon(Icons.draw_rounded)),
+                  //Campo de texto 'descrição'
+                  const CampoTexto(
+                      label: 'Descrição*', icon: Icon(Icons.edit_note)),
+
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        ScreenSize.widthPlusHeight / 40,
+                        ScreenSize.widthPlusHeight / 100,
+                        ScreenSize.widthPlusHeight / 40,
+                        ScreenSize.widthPlusHeight / 100),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RadioListTile(
+                          title: Text('Casa',
+                              style: TextStyle(
+                                  fontSize: ScreenSize.widthPlusHeight / 66.6)),
+                          subtitle: Text(
+                            'Escolha uma opçao',
+                            style: TextStyle(
+                                fontSize: ScreenSize.widthPlusHeight / 100),
+                          ),
+                          value: 1,
+                          groupValue: selecionado,
+                          activeColor: Colors.blue,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            selecaoradio(val);
+                          },
+                        ),
+                        const Divider(
+                          height: 10,
+                          color: Colors.red,
+                        ),
+                        RadioListTile(
+                          title: Text('Apartamento',
+                              style: TextStyle(
+                                  fontSize: ScreenSize.widthPlusHeight / 66.6)),
+                          subtitle: Text('Escolha uma opçao',
+                              style: TextStyle(
+                                  fontSize: ScreenSize.widthPlusHeight / 100)),
+                          value: 2,
+                          groupValue: selecionado,
+                          activeColor: Colors.green,
+                          onChanged: (val) {
+                            print("Radio $val");
+                            selecaoradio(val);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: ScreenSize.widthPlusHeight / 15,
+                        padding:
+                            EdgeInsets.all(ScreenSize.widthPlusHeight / 66.6),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          ScreenSize.widthPlusHeight / 40)))),
+                          onPressed: () {},
+                          child: Text(
+                            'Selecionar imagem',
+                            style: TextStyle(
+                                fontSize: ScreenSize.widthPlusHeight / 66.6),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: ScreenSize.widthPlusHeight / 15,
+                        padding:
+                            EdgeInsets.all(ScreenSize.widthPlusHeight / 66.6),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          ScreenSize.widthPlusHeight / 40)))),
+                          onPressed: () {},
+                          child: Text(
+                            'Cadastrar',
+                            style: TextStyle(
+                                fontSize: ScreenSize.widthPlusHeight / 66.6),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ],
-          ),
-        ],
-      )),
+          )),
       drawer: const Menu(),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'menu.dart';
 
 class ScreenSize {
   static double width = 0;
@@ -91,6 +92,7 @@ class Sobre extends StatelessWidget {
                   )
                 ],
               ))),
+      drawer: const Menu(),
     );
   }
 }

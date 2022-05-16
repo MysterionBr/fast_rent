@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto01/menu.dart';
 import 'screen_size.dart';
+import 'campo_texto.dart';
 
 class ContatoWidget extends StatelessWidget {
   const ContatoWidget({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class ContatoWidget extends StatelessWidget {
             //Ícone e texto
             Container(
                 padding: EdgeInsets.fromLTRB(
-                    0, ScreenSize.widthPlusHeight / 40, 0, 0),
+                    0, ScreenSize.widthPlusHeight / 20, 0, 0),
                 child: Center(
                   child: CircleAvatar(
                     backgroundImage:
@@ -32,130 +33,31 @@ class ContatoWidget extends StatelessWidget {
                   ),
                 )),
             SizedBox(height: ScreenSize.widthPlusHeight / 100),
-            Text(
-              'Contato',
-              style: TextStyle(
-                fontFamily: 'Mermaid1001',
-                fontSize: ScreenSize.widthPlusHeight / 50,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            //Campo de texto 'nome'
             Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 20,
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLength: 50,
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.emoji_emotions,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(ScreenSize.widthPlusHeight / 40),
-                  ),
-                  labelText: 'Nome',
+              padding:
+                  EdgeInsets.fromLTRB(0, 0, 0, ScreenSize.widthPlusHeight / 40),
+              child: Text(
+                'Contato',
+                style: TextStyle(
+                  fontFamily: 'Mermaid1001',
+                  fontSize: ScreenSize.widthPlusHeight / 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
             ),
+
             //Campo de texto 'email'
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100,
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLength: 50,
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.contact_mail,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(ScreenSize.widthPlusHeight / 40),
-                  ),
-                  labelText: 'Email',
-                ),
-              ),
-            ),
-            //Campo de texto 'telefone'
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100,
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLength: 20,
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.contact_phone,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(ScreenSize.widthPlusHeight / 40),
-                  ),
-                  labelText: 'Telefone',
-                ),
-              ),
-            ),
-            //Campo de texto 'assunto'
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100,
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLength: 30,
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.draw_rounded,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(ScreenSize.widthPlusHeight / 40),
-                  ),
-                  labelText: 'Assunto',
-                ),
-              ),
-            ),
-            //Campo de texto 'Mensagem'
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100,
-                  ScreenSize.widthPlusHeight / 40,
-                  ScreenSize.widthPlusHeight / 100),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                maxLength: 50,
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.edit_note,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(ScreenSize.widthPlusHeight / 40),
-                  ),
-                  labelText: 'Mensagem',
-                ),
-              ),
-            ),
+            const CampoTexto(label: 'Nome*', icon: Icon(Icons.account_circle)),
+            //Campo de texto 'senha'
+            const CampoTexto(label: 'Email*', icon: Icon(Icons.email)),
+            //Campo de texto 'nome'
+            const CampoTexto(label: 'Telefone*', icon: Icon(Icons.call)),
+            //Campo de texto 'cpf'
+            const CampoTexto(label: 'Assunto*', icon: Icon(Icons.draw_rounded)),
+            //Campo de texto 'celular'
+            const CampoTexto(label: 'Mensagem*', icon: Icon(Icons.edit_note)),
+            //Botão 'cadastrar'
             //Botão 'enviar'
             Container(
               height: ScreenSize.widthPlusHeight / 22.2,
