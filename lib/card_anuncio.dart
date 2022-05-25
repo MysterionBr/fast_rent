@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:projeto01/anuncio_page.dart';
 import 'screen_size.dart';
+import 'listas_anuncio.dart';
 
-void abreDetalhes(
-    String bairro, String mensalidade, String imagePath, BuildContext context) {
+void abreDetalhes(Anuncio anuncio, BuildContext context) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -16,16 +17,17 @@ void abreDetalhes(
               height: ScreenSize.width / 1.107,
               child: Column(children: [
                 Expanded(
-                    flex: 8, child: Image.asset(imagePath, fit: BoxFit.cover)),
+                    flex: 8,
+                    child: Image.asset(anuncio.imagem, fit: BoxFit.cover)),
                 Expanded(
                     flex: 2,
                     child: SizedBox(
                       width: double.infinity,
                       child: Text(
                         '\n Bairro: ' +
-                            bairro +
+                            anuncio.bairro +
                             '\n Mensalidade: R\$ ' +
-                            mensalidade,
+                            anuncio.mensalidade,
                         style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
                         textAlign: TextAlign.left,
                       ),
@@ -37,7 +39,10 @@ void abreDetalhes(
                 'Mais detalhes',
                 style: TextStyle(fontSize: ScreenSize.width / 32.72),
               ),
-              onPressed: () => Navigator.of(context).pushNamed('/anuncio'),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AnuncioPage(anuncio: anuncio))),
             ),
             TextButton(
               child: Text(
@@ -52,14 +57,9 @@ void abreDetalhes(
 }
 
 class CardAnuncio extends StatelessWidget {
-  final String bairro, mensalidade, imagePath;
+  final Anuncio anuncio;
 
-  const CardAnuncio(
-      {Key? key,
-      required this.bairro,
-      required this.mensalidade,
-      required this.imagePath})
-      : super(key: key);
+  const CardAnuncio({Key? key, required this.anuncio}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class CardAnuncio extends StatelessWidget {
         height: ScreenSize.widthPlusHeight / 10,
         width: ScreenSize.widthPlusHeight / 10,
         child: GestureDetector(
-          onTap: () => {abreDetalhes(bairro, mensalidade, imagePath, context)},
+          onTap: () => {abreDetalhes(anuncio, context)},
           child: Card(
               semanticContainer: true,
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -81,12 +81,12 @@ class CardAnuncio extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 8,
-                    child: Image.asset(imagePath, fit: BoxFit.cover),
+                    child: Image.asset(anuncio.imagem, fit: BoxFit.cover),
                   ),
                   Expanded(
                       flex: 2,
                       child: Text(
-                        'R\$ ' + mensalidade,
+                        'R\$ ' + anuncio.mensalidade,
                         style: TextStyle(fontSize: ScreenSize.width / 24),
                       ))
                 ],

@@ -2,12 +2,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'screen_size.dart';
+import 'package:http/http.dart' as http;
+import 'rest.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   HomePageState createState() => HomePageState();
+}
+
+Future<http.Response> testeGet() {
+  return http.get(Uri.parse(BackEnd().address + '/url'));
 }
 
 class HomePageState extends State<HomePage> {
@@ -66,7 +72,8 @@ class HomePageState extends State<HomePage> {
                         style: TextStyle(fontSize: ScreenSize.width / 24),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/anuncios');
+                        testeGet();
+                        //Navigator.of(context).pushNamed('/anuncios');
                       },
                     ),
                   )),

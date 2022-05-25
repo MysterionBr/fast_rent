@@ -1,5 +1,6 @@
 //import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto01/listas_anuncio.dart';
 import 'menu.dart';
 import 'screen_size.dart';
 import 'card_anuncio.dart';
@@ -60,31 +61,7 @@ class UserPageState extends State<UserPage> {
                 child: SizedBox(
               width: double.infinity,
               height: ScreenSize.widthPlusHeight / 8,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const <Widget>[
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '500,00',
-                      imagePath: 'assets/images/casa1.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '550,00',
-                      imagePath: 'assets/images/casa2.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '700,00',
-                      imagePath: 'assets/images/casa3.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '1000,00',
-                      imagePath: 'assets/images/casa4.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '1500,00',
-                      imagePath: 'assets/images/casa5.jpg'),
-                ],
-              ),
+              child: const ListaMeusAnuncios(),
             )),
             //Texto 'Anúncios Favoritos'
             Container(
@@ -99,31 +76,7 @@ class UserPageState extends State<UserPage> {
                 child: SizedBox(
               width: double.infinity,
               height: ScreenSize.widthPlusHeight / 8,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const <Widget>[
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '3000,00',
-                      imagePath: 'assets/images/casa6.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '2800,00',
-                      imagePath: 'assets/images/casa7.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '2000,00',
-                      imagePath: 'assets/images/casa8.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '1900,00',
-                      imagePath: 'assets/images/casa9.jpg'),
-                  CardAnuncio(
-                      bairro: 'Centro',
-                      mensalidade: '2100,00',
-                      imagePath: 'assets/images/casa10.jpg'),
-                ],
-              ),
+              child: const ListaAnunciosFavoritos(),
             )),
           ],
         ),

@@ -2,15 +2,20 @@
 import 'package:flutter/material.dart';
 //import 'menu.dart';
 import 'screen_size.dart';
+import 'dart:html' as html;
+import 'listas_anuncio.dart';
 
-class AnuncioPage extends StatefulWidget {
-  const AnuncioPage({Key? key}) : super(key: key);
-
-  @override
-  AnuncioPageState createState() => AnuncioPageState();
+void htmlOpenLink() {
+  String url = "https://api.whatsapp.com/send?phone=+5534997815761?text=oi";
+  html.window.open(url, '_blank');
 }
 
-class AnuncioPageState extends State<AnuncioPage> {
+class AnuncioPage extends StatelessWidget {
+  const AnuncioPage({Key? key, required this.anuncio}) : super(key: key);
+  //const AnuncioPage({super.key, required this.anuncio});
+
+  final Anuncio anuncio;
+
   @override
   Widget build(BuildContext context) {
     ScreenSize().init(context);
@@ -30,9 +35,9 @@ class AnuncioPageState extends State<AnuncioPage> {
                 width: ScreenSize.width / 1.107,
                 height: ScreenSize.width / 1.107,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/images/casa7.jpg'),
+                          image: AssetImage(anuncio.imagem),
                           fit: BoxFit.cover)),
                   child: IconButton(
                     alignment: const Alignment(1.0, 1.0),
@@ -58,7 +63,7 @@ class AnuncioPageState extends State<AnuncioPage> {
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   0, ScreenSize.widthPlusHeight / 100),
               child: Text(
-                'Centro',
+                anuncio.bairro,
                 style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 100),
               ),
             ),
@@ -67,7 +72,7 @@ class AnuncioPageState extends State<AnuncioPage> {
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   0, ScreenSize.widthPlusHeight / 100),
               child: Text(
-                'R\$ 500,00',
+                'R\$ ' + anuncio.mensalidade,
                 style: TextStyle(
                     fontSize: ScreenSize.widthPlusHeight / 57,
                     fontWeight: FontWeight.bold),
@@ -121,7 +126,7 @@ class AnuncioPageState extends State<AnuncioPage> {
                   'Contatar Anunciante',
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
                 ),
-                onPressed: () {},
+                onPressed: () => {htmlOpenLink()},
               ),
             ),
           ],

@@ -21,14 +21,14 @@ class AppWidget extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/login': (context) => const LoginPage(),
-        '/contato': (context) => const ContatoWidget(),
+        '/login': (context) => LoginPage(),
+        '/contato': (context) => ContatoWidget(),
         '/planos': (context) => const Plans(),
         '/cadastro': (context) => const Cadastro(),
         '/cadastroAnuncio': (context) => const CadastroAnuncios(),
         '/sobre': (context) => const Sobre(),
         '/anuncios': (context) => const Anuncios(),
-        '/anuncio': (context) => const AnuncioPage(),
+        //'/anuncio': (context) => const AnuncioPage(),
         '/user': (context) => const UserPage(),
       },
     );
