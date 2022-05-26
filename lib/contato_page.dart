@@ -21,7 +21,7 @@ Future<http.Response> postRequest(
   //remover depois
   print(body);
 
-  var response = await http.post(Uri.parse(url),
+  var response = await http.post(Uri.parse(url + '/mail'),
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);

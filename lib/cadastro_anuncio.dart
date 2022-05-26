@@ -34,7 +34,7 @@ Future<http.Response> postRequest(
   //remover depois
   print(body);
 
-  var response = await http.post(Uri.parse(url),
+  var response = await http.post(Uri.parse(url + '/addAnuncio'),
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);
@@ -131,7 +131,6 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                     controller: valorController,
                     style:
                         TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-                    obscureText: true,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.attach_money),
                       border: OutlineInputBorder(
