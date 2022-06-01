@@ -3,7 +3,60 @@ import 'package:flutter/material.dart';
 import 'package:projeto01/listas_anuncio.dart';
 import 'menu.dart';
 import 'screen_size.dart';
-import 'card_anuncio.dart';
+//import 'card_anuncio.dart';
+import 'package:http/http.dart' as http;
+//import 'package:sync_http/sync_http.dart';
+import 'rest.dart';
+import 'dart:async';
+import 'dart:convert';
+
+class Usuario {
+  final String nome;
+  final String cpf;
+  final String dataNasc;
+  final String email;
+  final String celular;
+
+  Usuario({
+    required this.nome,
+    required this.cpf,
+    required this.dataNasc,
+    required this.email,
+    required this.celular,
+  });
+
+  factory Usuario.fromJson(Map<String, dynamic> json) {
+    return Usuario(
+      nome: json['nome'],
+      cpf: json['cpf'],
+      dataNasc: json['dataNasc'],
+      email: json['email'],
+      celular: json['celular'],
+    );
+  }
+}
+
+Future<Usuario> fetchUsuario() async {
+  String url = BackEnd().address;
+  final response = await http.get(Uri.parse(url + '/usuario'));
+
+  if (response.statusCode == 200) {
+    return Usuario.fromJson(jsonDecode(response.body)[0]);
+  } else {
+    throw Exception('Não foi possível carregar os dados do usuário');
+  }
+}
+
+Future<void> encerraSessao(BuildContext context) async {
+  String url = BackEnd().address;
+  final response = await http.get(Uri.parse(url + '/logout'));
+
+  if (response.body == '"Sessão finalizada"') {
+    respostaBack('Sessão finalizada com sucesso!', '', context);
+  } else {
+    respostaBack('Não foi possível finalizar a sessão', '', context);
+  }
+}
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -13,6 +66,14 @@ class UserPage extends StatefulWidget {
 }
 
 class UserPageState extends State<UserPage> {
+  late Future<Usuario> futureUsuario;
+
+  @override
+  void initState() {
+    super.initState();
+    futureUsuario = fetchUsuario();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenSize().init(context);
@@ -40,15 +101,43 @@ class UserPageState extends State<UserPage> {
                   ),
                 )),
             SizedBox(height: ScreenSize.widthPlusHeight / 100),
-            Text(
-              'Usuário',
-              style: TextStyle(
-                fontSize: ScreenSize.widthPlusHeight / 50,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            //Texto 'Meus Anúncios'
+            FutureBuilder<Usuario>(
+                future: futureUsuario,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Text(
+                          snapshot.data!.nome,
+                          style: TextStyle(
+                            fontSize: ScreenSize.widthPlusHeight / 50,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextButton(
+                          child: Text(
+                            'Encerrar sessão',
+                            style: TextStyle(
+                                fontSize: ScreenSize.widthPlusHeight / 100,
+                                color: Colors.blue),
+                          ),
+                          onPressed: () {
+                            encerraSessao(context);
+                          },
+                        )
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Usuário',
+                        style: TextStyle(
+                          fontSize: ScreenSize.widthPlusHeight / 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ));
+                  }
+                  return const CircularProgressIndicator();
+                }),
             Container(
               padding:
                   EdgeInsets.fromLTRB(0, ScreenSize.widthPlusHeight / 15, 0, 0),

@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:projeto01/anuncio_page.dart';
 import 'screen_size.dart';
 import 'listas_anuncio.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'rest.dart';
+
+Future<String> getDirectory() async {
+  final directory = await getApplicationDocumentsDirectory();
+  return directory.path;
+}
 
 void abreDetalhes(Anuncio anuncio, BuildContext context) {
+  Future<String> futureDirectory = getDirectory();
+
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -18,7 +28,16 @@ void abreDetalhes(Anuncio anuncio, BuildContext context) {
               child: Column(children: [
                 Expanded(
                     flex: 8,
-                    child: Image.asset(anuncio.imagem, fit: BoxFit.cover)),
+                    child: FutureBuilder<String>(
+                      future: futureDirectory,
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        return Image.file(
+                          File(
+                              '${snapshot.data}/$folderName/${anuncio.titulo}.jpg'),
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )),
                 Expanded(
                     flex: 2,
                     child: SizedBox(
@@ -27,7 +46,7 @@ void abreDetalhes(Anuncio anuncio, BuildContext context) {
                         '\n Bairro: ' +
                             anuncio.bairro +
                             '\n Mensalidade: R\$ ' +
-                            anuncio.mensalidade,
+                            anuncio.valor,
                         style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
                         textAlign: TextAlign.left,
                       ),
@@ -56,10 +75,23 @@ void abreDetalhes(Anuncio anuncio, BuildContext context) {
       });
 }
 
-class CardAnuncio extends StatelessWidget {
+class CardAnuncio extends StatefulWidget {
   final Anuncio anuncio;
 
   const CardAnuncio({Key? key, required this.anuncio}) : super(key: key);
+
+  @override
+  CardAnuncioState createState() => CardAnuncioState();
+}
+
+class CardAnuncioState extends State<CardAnuncio> {
+  late Future<String> futureDirectory;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDirectory = getDirectory();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +105,28 @@ class CardAnuncio extends StatelessWidget {
         height: ScreenSize.widthPlusHeight / 10,
         width: ScreenSize.widthPlusHeight / 10,
         child: GestureDetector(
-          onTap: () => {abreDetalhes(anuncio, context)},
+          onTap: () => {abreDetalhes(widget.anuncio, context)},
           child: Card(
               semanticContainer: true,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Column(
                 children: [
                   Expanded(
-                    flex: 8,
-                    child: Image.asset(anuncio.imagem, fit: BoxFit.cover),
-                  ),
+                      flex: 8,
+                      child: FutureBuilder<String>(
+                        future: futureDirectory,
+                        builder: (context, AsyncSnapshot<String> snapshot) {
+                          return Image.file(
+                            File(
+                                '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )),
                   Expanded(
                       flex: 2,
                       child: Text(
-                        'R\$ ' + anuncio.mensalidade,
+                        'R\$ ' + widget.anuncio.valor,
                         style: TextStyle(fontSize: ScreenSize.width / 24),
                       ))
                 ],

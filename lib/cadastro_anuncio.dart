@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto01/menu.dart';
 import 'screen_size.dart';
@@ -5,6 +6,9 @@ import 'rest.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<http.Response> postRequest(
     String titulo,
@@ -15,7 +19,9 @@ Future<http.Response> postRequest(
     String cep,
     String rua,
     String numero,
-    String bairro) async {
+    String bairro,
+    String imagem,
+    BuildContext context) async {
   String url = BackEnd().address;
 
   Map dados = {
@@ -28,9 +34,11 @@ Future<http.Response> postRequest(
     'Rua': rua,
     'Numero': numero,
     'Bairro': bairro,
+    'Imagem': imagem,
   };
   var body = json.encode(dados);
 
+  salvaImagem(titulo);
   //remover depois
   print(body);
 
@@ -38,6 +46,13 @@ Future<http.Response> postRequest(
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);
+
+  if (response.body == '"Sucesso"') {
+    respostaBack('Cadastro realizado com sucesso!', 'anuncios', context);
+  } else {
+    respostaBack(
+        'Não foi possível realizar o cadastro', 'cadastroAnuncio', context);
+  }
 
   return response;
 }
@@ -47,6 +62,32 @@ class CadastroAnuncios extends StatefulWidget {
 
   @override
   State<CadastroAnuncios> createState() => _CadastroAnunciosState();
+}
+
+dynamic arquivoImagem;
+
+void escolheImagem() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  if (result != null) {
+    arquivoImagem = File(result.files.single.path.toString());
+  } else {
+    // User canceled the picker
+  }
+}
+
+void salvaImagem(String titulo) async {
+  Directory documentDirectory = await getApplicationDocumentsDirectory();
+  //String folderName = "FastRent";
+  Directory path = Directory(documentDirectory.path + '/$folderName');
+  if ((await path.exists())) {
+    await arquivoImagem
+        .copy(documentDirectory.path + '/$folderName/$titulo.jpg');
+  } else {
+    path.create();
+    await arquivoImagem
+        .copy(documentDirectory.path + '/$folderName/$titulo.jpg');
+  }
 }
 
 class _CadastroAnunciosState extends State<CadastroAnuncios> {
@@ -302,7 +343,9 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(
                                           ScreenSize.widthPlusHeight / 40)))),
-                          onPressed: () {},
+                          onPressed: () {
+                            escolheImagem();
+                          },
                           child: Text(
                             'Selecionar imagem',
                             style: TextStyle(
@@ -331,7 +374,9 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                                 cepController.text,
                                 ruaController.text,
                                 numeroController.text,
-                                bairroController.text);
+                                bairroController.text,
+                                '$folderName/' + tituloController.text + '.jpg',
+                                context);
                           },
                           child: Text(
                             'Cadastrar',

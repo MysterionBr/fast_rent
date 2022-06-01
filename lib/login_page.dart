@@ -6,7 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<http.Response> postRequest(String username, String password) async {
+Future<http.Response> postRequest(
+    String username, String password, BuildContext context) async {
   String url = BackEnd().address;
 
   Map dados = {
@@ -22,6 +23,12 @@ Future<http.Response> postRequest(String username, String password) async {
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);
+
+  if (response.body == '"Sucesso"') {
+    respostaBack('Login realizado com sucesso!', 'user', context);
+  } else {
+    respostaBack('Não foi possível realizar o login', 'login', context);
+  }
 
   return response;
 }
@@ -128,8 +135,8 @@ class LoginPage extends StatelessWidget {
                             fontSize: ScreenSize.widthPlusHeight / 66.6),
                       ),
                       onPressed: () {
-                        postRequest(
-                            nameController.text, passwordController.text);
+                        postRequest(nameController.text,
+                            passwordController.text, context);
                       },
                     ),
                   ),

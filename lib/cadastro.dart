@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> postRequest(String nome, String cpf, String data,
-    String email, String celular, String password) async {
+    String email, String celular, String password, BuildContext context) async {
   String url = BackEnd().address;
 
   Map dados = {
@@ -27,6 +27,12 @@ Future<http.Response> postRequest(String nome, String cpf, String data,
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);
+
+  if (response.body == '"Sucesso"') {
+    respostaBack('Cadastro realizado com sucesso!', 'login', context);
+  } else {
+    respostaBack('Não foi possível realizar o cadastro', 'cadastro', context);
+  }
 
   return response;
 }
@@ -215,7 +221,8 @@ class _MyStatefulWidgetState extends State<Cadastro> {
                               dataController.text,
                               emailController.text,
                               celularController.text,
-                              passwordController.text);
+                              passwordController.text,
+                              context);
                         },
                       ),
                     ),

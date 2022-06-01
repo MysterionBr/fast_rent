@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'rest.dart';
 import 'package:http/http.dart' as http;
 
-Future<http.Response> postRequest(
-    String nome, String emailCliente, String assunto, String texto) async {
+Future<http.Response> postRequest(String nome, String emailCliente,
+    String assunto, String texto, BuildContext context) async {
   String url = BackEnd().address;
 
   Map dados = {
@@ -25,6 +25,12 @@ Future<http.Response> postRequest(
       headers: {"Content-Type": "application/json"}, body: body);
   print(response.statusCode);
   print(response.body);
+
+  if (response.body == 'Sucesso') {
+    respostaBack('O e-mail foi enviado com sucesso!', '', context);
+  } else {
+    respostaBack('Erro ao enviar o e-mail!', 'contato', context);
+  }
 
   return response;
 }
@@ -160,8 +166,12 @@ class ContatoWidget extends StatelessWidget {
                           fontSize: ScreenSize.widthPlusHeight / 66.6),
                     ),
                     onPressed: () {
-                      postRequest(nameController.text, emailController.text,
-                          assuntoController.text, mensagemController.text);
+                      postRequest(
+                          nameController.text,
+                          emailController.text,
+                          assuntoController.text,
+                          mensagemController.text,
+                          context);
                     },
                   ),
                 ),

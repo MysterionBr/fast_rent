@@ -1,23 +1,42 @@
 //import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto01/rest.dart';
+import 'package:projeto01/usuario_page.dart';
 //import 'menu.dart';
 import 'screen_size.dart';
-import 'dart:html' as html;
+//import 'dart:html' as html;
 import 'listas_anuncio.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
-void htmlOpenLink() {
-  String url = "https://api.whatsapp.com/send?phone=+5534997815761?text=oi";
-  html.window.open(url, '_blank');
+Future<String> getDirectory() async {
+  final directory = await getApplicationDocumentsDirectory();
+  return directory.path;
 }
 
-class AnuncioPage extends StatelessWidget {
+class AnuncioPage extends StatefulWidget {
+  final Anuncio anuncio;
+
   const AnuncioPage({Key? key, required this.anuncio}) : super(key: key);
   //const AnuncioPage({super.key, required this.anuncio});
 
-  final Anuncio anuncio;
+  @override
+  AnuncioPageState createState() => AnuncioPageState();
+}
+
+class AnuncioPageState extends State<AnuncioPage> {
+  late Future<String> futureDirectory;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDirectory = getDirectory();
+  }
 
   @override
   Widget build(BuildContext context) {
+    getDirectory();
+
     ScreenSize().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +45,7 @@ class AnuncioPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/backgroundUsuario.jpg'),
+                image: AssetImage("assets/images/backgroundLogin.jpg"),
                 fit: BoxFit.cover)),
         child: ListView(
           children: <Widget>[
@@ -35,24 +54,22 @@ class AnuncioPage extends StatelessWidget {
                 width: ScreenSize.width / 1.107,
                 height: ScreenSize.width / 1.107,
                 child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(anuncio.imagem),
-                          fit: BoxFit.cover)),
-                  child: IconButton(
-                    alignment: const Alignment(1.0, 1.0),
-                    icon: const Icon(Icons.favorite_border),
-                    iconSize: ScreenSize.widthPlusHeight / 44.4,
-                    color: Colors.black,
-                    onPressed: () {},
-                  ),
-                )),
+                    child: FutureBuilder<String>(
+                  future: futureDirectory,
+                  builder: (context, AsyncSnapshot<String> snapshot) {
+                    return Image.file(
+                      File(
+                          '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ))),
             //Título
             Padding(
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   ScreenSize.widthPlusHeight / 200, 0),
               child: Text(
-                'Casa no Centro da Cidade',
+                widget.anuncio.titulo,
                 style: TextStyle(
                     fontSize: ScreenSize.widthPlusHeight / 57,
                     fontWeight: FontWeight.bold),
@@ -63,7 +80,7 @@ class AnuncioPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   0, ScreenSize.widthPlusHeight / 100),
               child: Text(
-                anuncio.bairro,
+                widget.anuncio.bairro,
                 style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 100),
               ),
             ),
@@ -72,7 +89,7 @@ class AnuncioPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   0, ScreenSize.widthPlusHeight / 100),
               child: Text(
-                'R\$ ' + anuncio.mensalidade,
+                'R\$ ' + widget.anuncio.valor,
                 style: TextStyle(
                     fontSize: ScreenSize.widthPlusHeight / 57,
                     fontWeight: FontWeight.bold),
@@ -87,14 +104,14 @@ class AnuncioPage extends StatelessWidget {
                   ScreenSize.widthPlusHeight / 100),
               child: Row(children: [
                 Text(
-                  'Casa',
+                  widget.anuncio.tipo,
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 80),
                 ),
                 SizedBox(
                   width: ScreenSize.widthPlusHeight / 66.6,
                 ),
                 Text(
-                  '70m²',
+                  '${widget.anuncio.metros}m²',
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 80),
                 ),
               ]),
@@ -104,7 +121,7 @@ class AnuncioPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
                   0, ScreenSize.widthPlusHeight / 50),
               child: Text(
-                'Casa em bom estado com sala de estar, sala de jantar, cozinha, três banheiros, quatro quartos, garagem, área de lazer, piscina, móveis embutidos',
+                widget.anuncio.descricao,
                 style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 80),
               ),
             ),
@@ -126,7 +143,7 @@ class AnuncioPage extends StatelessWidget {
                   'Contatar Anunciante',
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
                 ),
-                onPressed: () => {htmlOpenLink()},
+                onPressed: () => {},
               ),
             ),
           ],
