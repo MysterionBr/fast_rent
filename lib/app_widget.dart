@@ -7,14 +7,18 @@ import 'package:projeto01/cadastro.dart';
 import 'package:projeto01/cadastro_anuncio.dart';
 import 'package:projeto01/sobre_page.dart';
 import 'package:projeto01/anuncios_page.dart';
-import 'package:projeto01/anuncio_page.dart';
 import 'package:projeto01/usuario_page.dart';
+import 'package:projeto01/edita_usuario.dart';
+import 'package:desktop_window/desktop_window.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DesktopWindow.setWindowSize(const Size(405, 720));
+    DesktopWindow.setMinWindowSize(const Size(405, 720));
+    DesktopWindow.setMaxWindowSize(const Size(405, 720));
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       debugShowCheckedModeBanner: false,
@@ -28,8 +32,8 @@ class AppWidget extends StatelessWidget {
         '/cadastroAnuncio': (context) => const CadastroAnuncios(),
         '/sobre': (context) => const Sobre(),
         '/anuncios': (context) => const Anuncios(),
-        //'/anuncio': (context) => const AnuncioPage(),
         '/user': (context) => const UserPage(),
+        '/attuser': (context) => const EditUser(),
       },
     );
   }

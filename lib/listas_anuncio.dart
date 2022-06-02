@@ -2,12 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'screen_size.dart';
-import 'menu.dart';
 import 'card_anuncio.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'listas_anuncio.dart';
 import 'dart:convert';
+import 'dart:ui';
 
 class Anuncio {
   int id_anuncio;
@@ -124,7 +123,7 @@ class ListaMeusAnuncios extends StatefulWidget {
 class _ListaMeusAnunciosState extends _ListaAnunciosState {
   @override
   _getAnuncios() {
-    API.getAnuncios("/anuncios").then((response) {
+    API.getAnuncios("/meusanuncios").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         anuncios = list.map((model) => Anuncio.fromJson(model)).toList();
@@ -134,13 +133,20 @@ class _ListaMeusAnunciosState extends _ListaAnunciosState {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: anuncios.length,
-      itemBuilder: (context, index) {
-        return CardAnuncio(anuncio: anuncios[index]);
-      },
-    );
+    return ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+          },
+        ),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: anuncios.length,
+          itemBuilder: (context, index) {
+            return MiniCardAnuncio(anuncio: anuncios[index]);
+          },
+        ));
   }
 }
 

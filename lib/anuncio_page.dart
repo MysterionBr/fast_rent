@@ -1,13 +1,20 @@
-//import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto01/rest.dart';
-import 'package:projeto01/usuario_page.dart';
-//import 'menu.dart';
 import 'screen_size.dart';
-//import 'dart:html' as html;
 import 'listas_anuncio.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+//Trocar o número por uma variável
+launchWhatsApp() async {
+  const link = WhatsAppUnilink(
+    phoneNumber: '5534997815761',
+    text: "Vi seu anúncio no Fast Rent, estou interessado",
+  );
+  await launchUrl(Uri.parse('$link'));
+}
 
 Future<String> getDirectory() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -53,17 +60,19 @@ class AnuncioPageState extends State<AnuncioPage> {
                 padding: EdgeInsets.all(ScreenSize.widthPlusHeight / 50),
                 width: ScreenSize.width / 1.107,
                 height: ScreenSize.width / 1.107,
-                child: Container(
-                    child: FutureBuilder<String>(
+                child: FutureBuilder<String>(
                   future: futureDirectory,
                   builder: (context, AsyncSnapshot<String> snapshot) {
-                    return Image.file(
-                      File(
-                          '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
-                      fit: BoxFit.cover,
-                    );
+                    if (snapshot.hasData) {
+                      return Image.file(
+                        File(
+                            '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
+                        fit: BoxFit.cover,
+                      );
+                    }
+                    return const CircularProgressIndicator();
                   },
-                ))),
+                )),
             //Título
             Padding(
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
@@ -140,10 +149,10 @@ class AnuncioPageState extends State<AnuncioPage> {
                             borderRadius: BorderRadius.circular(
                                 ScreenSize.widthPlusHeight / 40)))),
                 child: Text(
-                  'Contatar Anunciante',
+                  'Contato',
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
                 ),
-                onPressed: () => {},
+                onPressed: () => {launchWhatsApp()},
               ),
             ),
           ],

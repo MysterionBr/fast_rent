@@ -17,14 +17,8 @@ Future<http.Response> postRequest(String nome, String emailCliente,
     'texto': texto,
   };
   var body = json.encode(dados);
-
-  //remover depois
-  print(body);
-
   var response = await http.post(Uri.parse(url + '/mail'),
       headers: {"Content-Type": "application/json"}, body: body);
-  print(response.statusCode);
-  print(response.body);
 
   if (response.body == 'Sucesso') {
     respostaBack('O e-mail foi enviado com sucesso!', '', context);

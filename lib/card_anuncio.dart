@@ -31,11 +31,14 @@ void abreDetalhes(Anuncio anuncio, BuildContext context) {
                     child: FutureBuilder<String>(
                       future: futureDirectory,
                       builder: (context, AsyncSnapshot<String> snapshot) {
-                        return Image.file(
-                          File(
-                              '${snapshot.data}/$folderName/${anuncio.titulo}.jpg'),
-                          fit: BoxFit.cover,
-                        );
+                        if (snapshot.hasData) {
+                          return Image.file(
+                            File(
+                                '${snapshot.data}/$folderName/${anuncio.titulo}.jpg'),
+                            fit: BoxFit.cover,
+                          );
+                        }
+                        return const CircularProgressIndicator();
                       },
                     )),
                 Expanded(
@@ -116,11 +119,14 @@ class CardAnuncioState extends State<CardAnuncio> {
                       child: FutureBuilder<String>(
                         future: futureDirectory,
                         builder: (context, AsyncSnapshot<String> snapshot) {
-                          return Image.file(
-                            File(
-                                '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
-                            fit: BoxFit.cover,
-                          );
+                          if (snapshot.hasData) {
+                            return Image.file(
+                              File(
+                                  '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
+                              fit: BoxFit.cover,
+                            );
+                          }
+                          return const CircularProgressIndicator();
                         },
                       )),
                   Expanded(
@@ -129,6 +135,69 @@ class CardAnuncioState extends State<CardAnuncio> {
                         'R\$ ' + widget.anuncio.valor,
                         style: TextStyle(fontSize: ScreenSize.width / 24),
                       ))
+                ],
+              )),
+        ));
+  }
+}
+
+class MiniCardAnuncio extends StatefulWidget {
+  final Anuncio anuncio;
+
+  const MiniCardAnuncio({Key? key, required this.anuncio}) : super(key: key);
+
+  @override
+  MiniCardAnuncioState createState() => MiniCardAnuncioState();
+}
+
+class MiniCardAnuncioState extends State<MiniCardAnuncio> {
+  late Future<String> futureDirectory;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDirectory = getDirectory();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ScreenSize().init(context);
+    return Container(
+        padding: EdgeInsets.fromLTRB(
+            ScreenSize.widthPlusHeight / 100,
+            ScreenSize.widthPlusHeight / 200,
+            ScreenSize.widthPlusHeight / 100,
+            ScreenSize.widthPlusHeight / 200),
+        height: ScreenSize.widthPlusHeight / 10,
+        width: ScreenSize.widthPlusHeight / 10,
+        child: GestureDetector(
+          onTap: () => {abreDetalhes(widget.anuncio, context)},
+          child: Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Column(
+                children: [
+                  Expanded(
+                      flex: 8,
+                      child: FutureBuilder<String>(
+                        future: futureDirectory,
+                        builder: (context, AsyncSnapshot<String> snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.file(
+                              File(
+                                  '${snapshot.data}/$folderName/${widget.anuncio.titulo}.jpg'),
+                              fit: BoxFit.cover,
+                            );
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      )),
+                  // Expanded(
+                  //     flex: 2,
+                  //     child: Text(
+                  //       'R\$ ' + widget.anuncio.valor,
+                  //       style: TextStyle(fontSize: ScreenSize.width / 24),
+                  //     ))
                 ],
               )),
         ));

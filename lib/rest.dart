@@ -27,12 +27,9 @@ class Requests {
     var body = json.encode(dados);
 
     //remover depois
-    print(body);
 
     var response = await http.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"}, body: body);
-    print(response.statusCode);
-    print(response.body);
 
     return response;
   }
@@ -42,6 +39,12 @@ class Requests {
   void delete() {}
 }
 
+Future<http.Response> getLogin() async {
+  String url = BackEnd().address;
+  final response = await http.get(Uri.parse(url + '/login'));
+  return response;
+}
+
 void respostaBack(String texto, String redirect, BuildContext context) {
   showDialog(
       context: context,
@@ -49,7 +52,7 @@ void respostaBack(String texto, String redirect, BuildContext context) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Detalhes',
+            'Mensagem',
             style: TextStyle(fontSize: ScreenSize.width / 24),
           ),
           content: Text(
@@ -68,4 +71,35 @@ void respostaBack(String texto, String redirect, BuildContext context) {
           ],
         );
       });
+}
+
+class AcessoNegado extends StatelessWidget {
+  const AcessoNegado({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ScreenSize().init(context);
+    return AlertDialog(
+      title: Text(
+        'Acesso negado',
+        style: TextStyle(fontSize: ScreenSize.width / 24),
+      ),
+      content: Text(
+        'Você deve realizar o login para acessar essa página',
+        style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
+        textAlign: TextAlign.left,
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+            'Ok',
+            style: TextStyle(fontSize: ScreenSize.width / 32.72),
+          ),
+          onPressed: () => Navigator.of(context).pushNamed('/login'),
+        ),
+      ],
+    );
+  }
 }

@@ -12,11 +12,15 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
-Future<http.Response> testeGet() {
-  return http.get(Uri.parse(BackEnd().address + '/url'));
-}
-
 class HomePageState extends State<HomePage> {
+  late Future<http.Response> response;
+
+  @override
+  void initState() {
+    super.initState();
+    response = getLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenSize().init(context);
@@ -60,22 +64,50 @@ class HomePageState extends State<HomePage> {
                   child: SizedBox(
                     width: ScreenSize.width / 3,
                     height: ScreenSize.width / 72,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          ScreenSize.widthPlusHeight / 40)))),
-                      child: Text(
-                        'Ver Anúncios',
-                        style: TextStyle(fontSize: ScreenSize.width / 24),
-                      ),
-                      onPressed: () {
-                        testeGet();
-                        //Navigator.of(context).pushNamed('/anuncios');
-                      },
-                    ),
+                    child: FutureBuilder<http.Response>(
+                        future: response,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data!.body == 'null') {
+                              return ElevatedButton(
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                ScreenSize.widthPlusHeight /
+                                                    40)))),
+                                child: Text(
+                                  'Entrar',
+                                  style: TextStyle(
+                                      fontSize: ScreenSize.width / 24),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/login');
+                                },
+                              );
+                            } else {
+                              return ElevatedButton(
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                ScreenSize.widthPlusHeight /
+                                                    40)))),
+                                child: Text(
+                                  'Ver Anúncios',
+                                  style: TextStyle(
+                                      fontSize: ScreenSize.width / 24),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/anuncios');
+                                },
+                              );
+                            }
+                          }
+                          return const CircularProgressIndicator();
+                        }),
                   )),
             ),
             Expanded(

@@ -1,5 +1,40 @@
 import 'package:flutter/material.dart';
 import 'screen_size.dart';
+import 'package:http/http.dart' as http;
+import 'rest.dart';
+
+Future<http.Response> verificaLogin(BuildContext context) async {
+  String url = BackEnd().address;
+  final response = await http.get(Uri.parse(url + '/login'));
+
+  if (response.body == 'null') {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Mensagem',
+              style: TextStyle(fontSize: ScreenSize.width / 24),
+            ),
+            content: Text(
+              'Você deve realizar o login para contratar um plano',
+              style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(fontSize: ScreenSize.width / 32.72),
+                ),
+                onPressed: () => Navigator.of(context).pushNamed('/login'),
+              )
+            ],
+          );
+        });
+  } else {}
+
+  return response;
+}
 
 class CardPlans extends StatelessWidget {
   final int quantPlan, valorPlan;
@@ -61,7 +96,9 @@ class CardPlans extends StatelessWidget {
                   textStyle:
                       TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  verificaLogin(context);
+                },
                 child: const Text('Contratar'),
               ),
             ],

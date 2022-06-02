@@ -15,14 +15,8 @@ Future<http.Response> postRequest(
     'Senha': password,
   };
   var body = json.encode(dados);
-
-  //remover depois
-  print(body);
-
   var response = await http.post(Uri.parse(url + '/login'),
       headers: {"Content-Type": "application/json"}, body: body);
-  print(response.statusCode);
-  print(response.body);
 
   if (response.body == '"Sucesso"') {
     respostaBack('Login realizado com sucesso!', 'user', context);

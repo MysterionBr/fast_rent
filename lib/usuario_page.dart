@@ -67,11 +67,13 @@ class UserPage extends StatefulWidget {
 
 class UserPageState extends State<UserPage> {
   late Future<Usuario> futureUsuario;
+  late Future<http.Response> response;
 
   @override
   void initState() {
     super.initState();
     futureUsuario = fetchUsuario();
+    response = getLogin();
   }
 
   @override
@@ -83,93 +85,125 @@ class UserPageState extends State<UserPage> {
       ),
       body: Center(
           child: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/backgroundUsuario.jpg'),
-                fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            //Ícone e texto
-            Container(
-                padding: EdgeInsets.fromLTRB(
-                    0, ScreenSize.widthPlusHeight / 15, 0, 0),
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundImage:
-                        const AssetImage('assets/images/avatar.png'),
-                    radius: ScreenSize.widthPlusHeight / 22.2,
-                  ),
-                )),
-            SizedBox(height: ScreenSize.widthPlusHeight / 100),
-            FutureBuilder<Usuario>(
-                future: futureUsuario,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        Text(
-                          snapshot.data!.nome,
-                          style: TextStyle(
-                            fontSize: ScreenSize.widthPlusHeight / 50,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextButton(
-                          child: Text(
-                            'Encerrar sessão',
-                            style: TextStyle(
-                                fontSize: ScreenSize.widthPlusHeight / 100,
-                                color: Colors.blue),
-                          ),
-                          onPressed: () {
-                            encerraSessao(context);
-                          },
-                        )
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Usuário',
-                        style: TextStyle(
-                          fontSize: ScreenSize.widthPlusHeight / 50,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ));
-                  }
-                  return const CircularProgressIndicator();
-                }),
-            Container(
-              padding:
-                  EdgeInsets.fromLTRB(0, ScreenSize.widthPlusHeight / 15, 0, 0),
-              child: Text(
-                'Meus Anúncios',
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-              ),
-            ),
-            Flexible(
-                child: SizedBox(
-              width: double.infinity,
-              height: ScreenSize.widthPlusHeight / 8,
-              child: const ListaMeusAnuncios(),
-            )),
-            //Texto 'Anúncios Favoritos'
-            Container(
-              padding:
-                  EdgeInsets.fromLTRB(0, ScreenSize.widthPlusHeight / 25, 0, 0),
-              child: Text(
-                'Anúncios Favoritos',
-                style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
-              ),
-            ),
-            Flexible(
-                child: SizedBox(
-              width: double.infinity,
-              height: ScreenSize.widthPlusHeight / 8,
-              child: const ListaAnunciosFavoritos(),
-            )),
-          ],
-        ),
-      )),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/backgroundUsuario.jpg'),
+                      fit: BoxFit.cover)),
+              child: FutureBuilder<http.Response>(
+                  future: response,
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.body == 'null') {
+                        return const AcessoNegado();
+                      } else if (snapshot.data!.body != 'null') {
+                        return Column(
+                          children: [
+                            //Ícone e texto
+                            Container(
+                                padding: EdgeInsets.fromLTRB(
+                                    0, ScreenSize.widthPlusHeight / 15, 0, 0),
+                                child: Center(
+                                  child: CircleAvatar(
+                                    backgroundImage: const AssetImage(
+                                        'assets/images/avatar.png'),
+                                    radius: ScreenSize.widthPlusHeight / 22.2,
+                                  ),
+                                )),
+                            SizedBox(height: ScreenSize.widthPlusHeight / 100),
+                            FutureBuilder<Usuario>(
+                                future: futureUsuario,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      children: [
+                                        Text(
+                                          snapshot.data!.nome,
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenSize.widthPlusHeight / 50,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        TextButton(
+                                          child: Text(
+                                            'Editar dados',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    ScreenSize.widthPlusHeight /
+                                                        100,
+                                                color: Colors.blue),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/attuser');
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text(
+                                            'Encerrar sessão',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    ScreenSize.widthPlusHeight /
+                                                        100,
+                                                color: Colors.blue),
+                                          ),
+                                          onPressed: () {
+                                            encerraSessao(context);
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('Usuário',
+                                        style: TextStyle(
+                                          fontSize:
+                                              ScreenSize.widthPlusHeight / 50,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ));
+                                  }
+                                  return const CircularProgressIndicator();
+                                }),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  0, ScreenSize.widthPlusHeight / 15, 0, 0),
+                              child: Text(
+                                'Meus Anúncios',
+                                style: TextStyle(
+                                    fontSize:
+                                        ScreenSize.widthPlusHeight / 66.6),
+                              ),
+                            ),
+                            Flexible(
+                                child: SizedBox(
+                              width: double.infinity,
+                              height: ScreenSize.widthPlusHeight / 8,
+                              child: const ListaMeusAnuncios(),
+                            )),
+                            //Texto 'Anúncios Favoritos'
+                            Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  0, ScreenSize.widthPlusHeight / 25, 0, 0),
+                              child: Text(
+                                'Anúncios Favoritos',
+                                style: TextStyle(
+                                    fontSize:
+                                        ScreenSize.widthPlusHeight / 66.6),
+                              ),
+                            ),
+                            Flexible(
+                                child: SizedBox(
+                              width: double.infinity,
+                              height: ScreenSize.widthPlusHeight / 8,
+                              child: const ListaAnunciosFavoritos(),
+                            )),
+                          ],
+                        );
+                      }
+                    }
+                    return const CircularProgressIndicator();
+                  })))),
       drawer: const Menu(),
     );
   }

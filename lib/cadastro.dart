@@ -5,6 +5,24 @@ import 'rest.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
+var textEditingController = TextEditingController(text: "########");
+
+var nascimentoFormatter = MaskTextInputFormatter(
+    mask: '##/##/####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy);
+
+var cpfFormatter = MaskTextInputFormatter(
+    mask: '###.###.###-##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy);
+
+var celularFormatter = MaskTextInputFormatter(
+    mask: '+55 (##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy);
 
 Future<http.Response> postRequest(String nome, String cpf, String data,
     String email, String celular, String password, BuildContext context) async {
@@ -20,13 +38,8 @@ Future<http.Response> postRequest(String nome, String cpf, String data,
   };
   var body = json.encode(dados);
 
-  //remover depois
-  print(body);
-
   var response = await http.post(Uri.parse(url + '/cadastro'),
       headers: {"Content-Type": "application/json"}, body: body);
-  print(response.statusCode);
-  print(response.body);
 
   if (response.body == '"Sucesso"') {
     respostaBack('Cadastro realizado com sucesso!', 'login', context);
@@ -151,6 +164,7 @@ class _MyStatefulWidgetState extends State<Cadastro> {
                     SizedBox(height: ScreenSize.widthPlusHeight / 50),
                     //Campo de texto 'data de nascimento'
                     TextField(
+                      inputFormatters: [nascimentoFormatter],
                       controller: dataController,
                       style: TextStyle(
                           fontSize: ScreenSize.widthPlusHeight / 66.6),
@@ -163,9 +177,11 @@ class _MyStatefulWidgetState extends State<Cadastro> {
                         labelText: 'Data de nascimento*',
                       ),
                     ),
+
                     SizedBox(height: ScreenSize.widthPlusHeight / 50),
                     //Campo de texto 'CPF'
                     TextField(
+                      inputFormatters: [cpfFormatter],
                       controller: cpfController,
                       style: TextStyle(
                           fontSize: ScreenSize.widthPlusHeight / 66.6),
@@ -183,6 +199,7 @@ class _MyStatefulWidgetState extends State<Cadastro> {
                     SizedBox(height: ScreenSize.widthPlusHeight / 50),
                     //Campo de texto 'celular'
                     TextField(
+                      inputFormatters: [celularFormatter],
                       controller: celularController,
                       style: TextStyle(
                           fontSize: ScreenSize.widthPlusHeight / 66.6),
