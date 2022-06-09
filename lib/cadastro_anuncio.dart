@@ -34,7 +34,7 @@ Future<http.Response> postRequest(
     'Descricao': descricao,
     'Valor': valor,
     'Metros': metros,
-    'Tipo': 'Casa',
+    'Tipo': tipo,
     'Cep': cep,
     'Rua': rua,
     'Numero': numero,
@@ -115,6 +115,10 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
     setState(() {
       selecionado = val;
     });
+  }
+
+  defineTipo(tipo) {
+    tipoController.text = tipo;
   }
 
   @override
@@ -320,6 +324,7 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                                     activeColor: Colors.blue,
                                     onChanged: (val) {
                                       selecaoradio(val);
+                                      defineTipo('Casa');
                                     },
                                   ),
                                   const Divider(
@@ -342,6 +347,7 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                                     activeColor: Colors.green,
                                     onChanged: (val) {
                                       selecaoradio(val);
+                                      defineTipo('Apartamento');
                                     },
                                   ),
                                 ],

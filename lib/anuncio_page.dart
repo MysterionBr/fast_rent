@@ -6,14 +6,99 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-//Trocar o número por uma variável
-launchWhatsApp() async {
-  const link = WhatsAppUnilink(
-    phoneNumber: '5534997815761',
+launchWhatsApp(String celular) async {
+  var link = WhatsAppUnilink(
+    phoneNumber: celular,
     text: "Vi seu anúncio no Fast Rent, estou interessado",
   );
   await launchUrl(Uri.parse('$link'));
+}
+
+Future<http.Response> getFavorito(Anuncio anuncio) async {
+  String url = BackEnd().address;
+  Map dados = {
+    'id_anuncio': anuncio.id_anuncio,
+  };
+  var body = json.encode(dados);
+  var response = await http.post(Uri.parse(url + '/verificaFavoritos'),
+      headers: {"Content-Type": "application/json"}, body: body);
+
+  return response;
+}
+
+Future<http.Response> addFavorito(Anuncio anuncio, BuildContext context) async {
+  String url = BackEnd().address;
+  Map dados = {
+    'id_anuncio': anuncio.id_anuncio,
+  };
+  var body = json.encode(dados);
+  var response = await http.post(Uri.parse(url + '/addFavoritos'),
+      headers: {"Content-Type": "application/json"}, body: body);
+
+  if (response.body == '"Sucesso"') {
+    respostaFavorito('Anúncio adicionado aos favoritos!', anuncio, context);
+  } else {
+    respostaFavorito(
+        'Não foi possível adicionar o anúncio aos favoritos', anuncio, context);
+  }
+  return response;
+}
+
+Future<http.Response> removeFavorito(
+    Anuncio anuncio, BuildContext context) async {
+  String url = BackEnd().address;
+  Map dados = {
+    'id_anuncio': anuncio.id_anuncio,
+  };
+  var body = json.encode(dados);
+  var response = await http.post(Uri.parse(url + '/delFavoritos'),
+      headers: {"Content-Type": "application/json"}, body: body);
+
+  if (response.body == '"Sucesso"') {
+    respostaFavorito('Favorito removido com sucesso!', anuncio, context);
+  } else {
+    respostaFavorito(
+        'Não foi possível remover o anúncio dos favoritos', anuncio, context);
+  }
+
+  return response;
+}
+
+void respostaFavorito(String texto, Anuncio anuncio, BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Mensagem',
+            style: TextStyle(fontSize: ScreenSize.width / 24),
+          ),
+          content: Text(
+            texto,
+            style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
+            textAlign: TextAlign.left,
+          ),
+          actions: [
+            TextButton(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(fontSize: ScreenSize.width / 32.72),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AnuncioPage(anuncio: anuncio)));
+                }),
+          ],
+        );
+      });
 }
 
 Future<String> getDirectory() async {
@@ -25,7 +110,6 @@ class AnuncioPage extends StatefulWidget {
   final Anuncio anuncio;
 
   const AnuncioPage({Key? key, required this.anuncio}) : super(key: key);
-  //const AnuncioPage({super.key, required this.anuncio});
 
   @override
   AnuncioPageState createState() => AnuncioPageState();
@@ -33,17 +117,17 @@ class AnuncioPage extends StatefulWidget {
 
 class AnuncioPageState extends State<AnuncioPage> {
   late Future<String> futureDirectory;
+  late Future<http.Response> response;
 
   @override
   void initState() {
     super.initState();
     futureDirectory = getDirectory();
+    response = getFavorito(widget.anuncio);
   }
 
   @override
   Widget build(BuildContext context) {
-    getDirectory();
-
     ScreenSize().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -74,16 +158,63 @@ class AnuncioPageState extends State<AnuncioPage> {
                   },
                 )),
             //Título
-            Padding(
-              padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
-                  ScreenSize.widthPlusHeight / 200, 0),
-              child: Text(
-                widget.anuncio.titulo,
-                style: TextStyle(
-                    fontSize: ScreenSize.widthPlusHeight / 57,
-                    fontWeight: FontWeight.bold),
-              ),
+            Row(
+              children: [
+                Expanded(
+                    flex: 8,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          ScreenSize.widthPlusHeight / 50,
+                          0,
+                          ScreenSize.widthPlusHeight / 200,
+                          0),
+                      child: Text(
+                        widget.anuncio.titulo,
+                        style: TextStyle(
+                            fontSize: ScreenSize.widthPlusHeight / 57,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: FutureBuilder<http.Response>(
+                      future: response,
+                      builder:
+                          (context, AsyncSnapshot<http.Response> snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.body == 'null') {
+                            return IconButton(
+                              iconSize: ScreenSize.widthPlusHeight / 35,
+                              icon: const Icon(
+                                Icons.favorite_border,
+                                color: Colors.red,
+                              ),
+                              onPressed: () =>
+                                  addFavorito(widget.anuncio, context),
+                            );
+                          } else if (snapshot.data!.body == '"Sucesso"') {
+                            return IconButton(
+                              iconSize: ScreenSize.widthPlusHeight / 35,
+                              icon: const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              ),
+                              onPressed: () =>
+                                  removeFavorito(widget.anuncio, context),
+                            );
+                          } else {
+                            return const SizedBox(
+                              height: 1,
+                              width: 1,
+                            );
+                          }
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    ))
+              ],
             ),
+
             //Bairro
             Padding(
               padding: EdgeInsets.fromLTRB(ScreenSize.widthPlusHeight / 50, 0,
@@ -152,7 +283,7 @@ class AnuncioPageState extends State<AnuncioPage> {
                   'Contato',
                   style: TextStyle(fontSize: ScreenSize.widthPlusHeight / 66.6),
                 ),
-                onPressed: () => {launchWhatsApp()},
+                onPressed: () => {launchWhatsApp(widget.anuncio.celular)},
               ),
             ),
           ],

@@ -19,7 +19,7 @@ class Anuncio {
   String rua;
   String numero;
   String bairro;
-  int id_user;
+  String celular;
 
   Anuncio(
       {this.id_anuncio = 0,
@@ -32,7 +32,7 @@ class Anuncio {
       this.rua = '',
       this.numero = '',
       this.bairro = '',
-      this.id_user = 0});
+      this.celular = ''});
 
   Anuncio.fromJson(Map json)
       : id_anuncio = json['id_anuncio'],
@@ -45,7 +45,8 @@ class Anuncio {
         rua = json['rua'],
         numero = json['numero'],
         bairro = json['bairro'],
-        id_user = json['id_user'];
+        celular = json['celular'] ?? '';
+
   Map toJson() {
     return {
       'id_anuncio': id_anuncio,
@@ -58,7 +59,7 @@ class Anuncio {
       'rua': rua,
       'numero': numero,
       'bairro': bairro,
-      'id_user': id_user
+      'celular': celular
     };
   }
 }
@@ -123,9 +124,10 @@ class ListaMeusAnuncios extends StatefulWidget {
 class _ListaMeusAnunciosState extends _ListaAnunciosState {
   @override
   _getAnuncios() {
-    API.getAnuncios("/meusanuncios").then((response) {
+    API.getAnuncios("/meusAnuncios").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
+        //print(response.body);
         anuncios = list.map((model) => Anuncio.fromJson(model)).toList();
       });
     });
@@ -161,7 +163,7 @@ class ListaAnunciosFavoritos extends StatefulWidget {
 class _ListaAnunciosFavoritosState extends _ListaMeusAnunciosState {
   @override
   _getAnuncios() {
-    API.getAnuncios("/anuncios").then((response) {
+    API.getAnuncios("/meusFavoritos").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         anuncios = list.map((model) => Anuncio.fromJson(model)).toList();
