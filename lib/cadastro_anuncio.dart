@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto01/menu.dart';
@@ -84,6 +86,58 @@ void salvaImagem(String titulo) async {
   }
 }
 
+void mensagemQtdAnuncio(String mensagem, BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Mensagem',
+            style: TextStyle(fontSize: ScreenSize.width / 24),
+          ),
+          content: Text(
+            mensagem,
+            style: (TextStyle(fontSize: ScreenSize.width / 28.8)),
+            textAlign: TextAlign.left,
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'Ok',
+                style: TextStyle(fontSize: ScreenSize.width / 32.72),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      });
+}
+
+class QtdAnuncio {
+  final int qnt_disponivel_anuncios;
+
+  QtdAnuncio({
+    required this.qnt_disponivel_anuncios,
+  });
+
+  factory QtdAnuncio.fromJson(Map<String, dynamic> json) {
+    return QtdAnuncio(
+      qnt_disponivel_anuncios: json['qnt_disponivel_anuncios'],
+    );
+  }
+}
+
+Future<QtdAnuncio> verificaQuantidadeDisponivel() async {
+  String url = BackEnd().address;
+  final response =
+      await http.get(Uri.parse(url + '/verificaQuantidadeDisponivel'));
+  if (response.statusCode == 200) {
+    return QtdAnuncio.fromJson(jsonDecode(response.body)[0]);
+  } else {
+    throw Exception('Não foi possível carregar o plano do usuário');
+  }
+}
+
 class CadastroAnuncios extends StatefulWidget {
   const CadastroAnuncios({Key? key}) : super(key: key);
 
@@ -94,6 +148,7 @@ class CadastroAnuncios extends StatefulWidget {
 class _CadastroAnunciosState extends State<CadastroAnuncios> {
   late int selecionado;
   late Future<http.Response> response;
+  late Future<QtdAnuncio> quantidade;
   final tituloController = TextEditingController();
   final valorController = TextEditingController();
   final bairroController = TextEditingController();
@@ -109,6 +164,7 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
     super.initState();
     selecionado = 0;
     response = getLogin();
+    quantidade = verificaQuantidadeDisponivel();
   }
 
   selecaoradio(val) {
@@ -381,42 +437,104 @@ class _CadastroAnunciosState extends State<CadastroAnuncios> {
                                   ),
                                 ),
                                 Container(
-                                  height: ScreenSize.widthPlusHeight / 15,
-                                  padding: EdgeInsets.all(
-                                      ScreenSize.widthPlusHeight / 66.6),
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius: BorderRadius
-                                                    .circular(ScreenSize
+                                    height: ScreenSize.widthPlusHeight / 15,
+                                    padding: EdgeInsets.all(
+                                        ScreenSize.widthPlusHeight / 66.6),
+                                    child: FutureBuilder<QtdAnuncio>(
+                                      future: quantidade,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          if (snapshot.data!
+                                                  .qnt_disponivel_anuncios >
+                                              0) {
+                                            return ElevatedButton(
+                                              style: ButtonStyle(
+                                                  shape: MaterialStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius
+                                                              .circular(ScreenSize
+                                                                      .widthPlusHeight /
+                                                                  40)))),
+                                              onPressed: () {
+                                                postRequest(
+                                                    tituloController.text,
+                                                    descricaoController.text,
+                                                    valorController.text,
+                                                    metragemController.text,
+                                                    tipoController.text,
+                                                    cepController.text,
+                                                    ruaController.text,
+                                                    numeroController.text,
+                                                    bairroController.text,
+                                                    '$folderName/' +
+                                                        tituloController.text +
+                                                        '.jpg',
+                                                    context);
+                                              },
+                                              child: Text(
+                                                'Cadastrar',
+                                                style: TextStyle(
+                                                    fontSize: ScreenSize
                                                             .widthPlusHeight /
-                                                        40)))),
-                                    onPressed: () {
-                                      postRequest(
-                                          tituloController.text,
-                                          descricaoController.text,
-                                          valorController.text,
-                                          metragemController.text,
-                                          tipoController.text,
-                                          cepController.text,
-                                          ruaController.text,
-                                          numeroController.text,
-                                          bairroController.text,
-                                          '$folderName/' +
-                                              tituloController.text +
-                                              '.jpg',
-                                          context);
-                                    },
-                                    child: Text(
-                                      'Cadastrar',
-                                      style: TextStyle(
-                                          fontSize: ScreenSize.widthPlusHeight /
-                                              66.6),
-                                    ),
-                                  ),
-                                ),
+                                                        66.6),
+                                              ),
+                                            );
+                                          } else {
+                                            return ElevatedButton(
+                                              style: ButtonStyle(
+                                                  shape: MaterialStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius
+                                                              .circular(ScreenSize
+                                                                      .widthPlusHeight /
+                                                                  40)))),
+                                              onPressed: () {
+                                                mensagemQtdAnuncio(
+                                                    'Você atingiu o número máximo de anúncios permitidos pelo seu plano',
+                                                    context);
+                                              },
+                                              child: Text(
+                                                'Cadastrar',
+                                                style: TextStyle(
+                                                    fontSize: ScreenSize
+                                                            .widthPlusHeight /
+                                                        66.6),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                        if (snapshot.hasError) {
+                                          return ElevatedButton(
+                                            style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius
+                                                            .circular(ScreenSize
+                                                                    .widthPlusHeight /
+                                                                40)))),
+                                            onPressed: () {
+                                              mensagemQtdAnuncio(
+                                                  'Você deve contratar um plano para criar anúncios',
+                                                  context);
+                                            },
+                                            child: Text(
+                                              'Cadastrar',
+                                              style: TextStyle(
+                                                  fontSize: ScreenSize
+                                                          .widthPlusHeight /
+                                                      66.6),
+                                            ),
+                                          );
+                                        }
+                                        return const SizedBox(
+                                          height: 0,
+                                          width: 0,
+                                        );
+                                      },
+                                    )),
                               ],
                             )
                           ],

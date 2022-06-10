@@ -36,6 +36,30 @@ class Usuario {
   }
 }
 
+class Plano {
+  final String nome;
+
+  Plano({
+    required this.nome,
+  });
+
+  factory Plano.fromJson(Map<String, dynamic> json) {
+    return Plano(
+      nome: json['nome'],
+    );
+  }
+}
+
+Future<Plano> verificaPlano() async {
+  String url = BackEnd().address;
+  final response = await http.get(Uri.parse(url + '/meuPlano'));
+  if (response.statusCode == 200) {
+    return Plano.fromJson(jsonDecode(response.body)[0]);
+  } else {
+    throw Exception('Não foi possível carregar o plano do usuário');
+  }
+}
+
 Future<Usuario> fetchUsuario() async {
   String url = BackEnd().address;
   final response = await http.get(Uri.parse(url + '/usuario'));
@@ -67,12 +91,14 @@ class UserPage extends StatefulWidget {
 
 class UserPageState extends State<UserPage> {
   late Future<Usuario> futureUsuario;
+  late Future<Plano>? plano;
   late Future<http.Response> response;
 
   @override
   void initState() {
     super.initState();
     futureUsuario = fetchUsuario();
+    plano = verificaPlano();
     response = getLogin();
   }
 
@@ -116,41 +142,81 @@ class UserPageState extends State<UserPage> {
                                   if (snapshot.hasData) {
                                     return Column(
                                       children: [
-                                        Text(
-                                          snapshot.data!.nome,
-                                          style: TextStyle(
-                                            fontSize:
-                                                ScreenSize.widthPlusHeight / 50,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        TextButton(
-                                          child: Text(
-                                            'Editar dados',
-                                            style: TextStyle(
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              snapshot.data!.nome,
+                                              style: TextStyle(
                                                 fontSize:
                                                     ScreenSize.widthPlusHeight /
-                                                        100,
-                                                color: Colors.blue),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/attuser');
-                                          },
+                                                        50,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            FutureBuilder<Plano>(
+                                                future: plano,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                      ' (${snapshot.data!.nome})',
+                                                      style: TextStyle(
+                                                        fontSize: ScreenSize
+                                                                .widthPlusHeight /
+                                                            50,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    );
+                                                  } else if (snapshot
+                                                      .hasError) {
+                                                    return const SizedBox(
+                                                      height: 0,
+                                                      width: 0,
+                                                    );
+                                                  }
+                                                  return const SizedBox(
+                                                    height: 0,
+                                                    width: 0,
+                                                  );
+                                                }),
+                                          ],
                                         ),
-                                        TextButton(
-                                          child: Text(
-                                            'Encerrar sessão',
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ScreenSize.widthPlusHeight /
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            TextButton(
+                                              child: Text(
+                                                'Editar dados',
+                                                style: TextStyle(
+                                                    fontSize: ScreenSize
+                                                            .widthPlusHeight /
                                                         100,
-                                                color: Colors.blue),
-                                          ),
-                                          onPressed: () {
-                                            encerraSessao(context);
-                                          },
+                                                    color: Colors.blue),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, '/attuser');
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text(
+                                                'Encerrar sessão',
+                                                style: TextStyle(
+                                                    fontSize: ScreenSize
+                                                            .widthPlusHeight /
+                                                        100,
+                                                    color: Colors.blue),
+                                              ),
+                                              onPressed: () {
+                                                encerraSessao(context);
+                                              },
+                                            )
+                                          ],
                                         )
                                       ],
                                     );
